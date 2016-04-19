@@ -1,5 +1,5 @@
 {
-  "name": "liwenjun",
+  "name": "liwenjun_countwe",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/linicam/counter.git"
   },
-  "author": "",
+  "author": "liwenjun",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/linicam/counter/issues"
@@ -18,7 +18,13 @@
   "homepage": "https://github.com/linicam/counter#readme",
   "devDependencies": {
     "grunt": "^1.0.1",
+    "grunt-cmd-handlebars": "^0.1.2",
+    "grunt-cmd-transport": "^0.5.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-handlebars": "^1.0.0",
-    "grunt-contrib-uglify": "^1.0.1"
+    "grunt-contrib-requirejs": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
   }
 }
