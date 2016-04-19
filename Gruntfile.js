@@ -29,19 +29,8 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'front',
-          src: '**/*.js',
+          src: 'front/**/*.js',
           dest: '.build/modules'
-        }]
-      },
-      lang: {
-        options: {
-          idleading: 'i18n/',
-        },
-        files: [{
-          expand: true,
-          cwd: 'i18n',
-          src: '**/*.js',
-          dest: '.build/i18n'
         }]
       }
     },
@@ -53,7 +42,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '.build/modules',
-          src: '**/*.js',
+          src: 'front/**/*.js',
           dest: '.build/modules'
         }]
       },
@@ -64,25 +53,7 @@ module.exports = function(grunt) {
           src: '*.js',
           dest: '.build/templates'
         }]
-      },
-      api: {
-        options: {
-          banner: '/*! FangCloud Open Platorm JavaScript API - v<%= pkg.fangcloudApiVersion %> */\n'
-        },
-        files:  {'.apibuild/fangcloud.js': '.apibuild/fangcloud.js'}
       }
-      // ,lib: {
-      //  files: [{
-      //    expand: true,
-      //    cwd: 'lib',
-      //    // src: ['**/*.js', '!**/*.min.js', '!pdfjs/**', '!compatible/**', '!zeroclipboard/**'],
-      //    src: ['egeui/0.1.6/egeui.js'],
-      //    dest: 'lib',
-      //    rename: function(dest, matchedSrcPath){
-      //      return path.join(dest, matchedSrcPath.slice(0, -3) + '.min.js');
-      //    }
-      //  }]
-      // }
     },
     handlebars: {
       options: {
@@ -104,7 +75,7 @@ module.exports = function(grunt) {
           exports: 'this["FCTPL"]',
         },
         files: {
-          src: ['templates/*.js']
+          src: ['front/templates/*.js']
         }
       }
     },
@@ -113,7 +84,7 @@ module.exports = function(grunt) {
         atBegin: true
       },
       handlebars: {
-        files: ['templates/*/*.hbs'],
+        files: ['front/templates/*/*.hbs'],
         tasks: ['hbs_dev']
       }
     },
@@ -170,43 +141,6 @@ module.exports = function(grunt) {
       build: ['.build', '.apibuild', 'lib-dist']
     }
   });
-
-  // Switch static environment to test static resource distribute between dev, local and remote.
-  grunt.registerTask("env", "Switch static environment to test static resource distribute.", function(env) {
-    // switch env
-    var filepath = "../../application/config/asset.php";
-    var code = grunt.file.read(filepath);
-    var env_vars = {
-      "dev": {
-        'path': "assets/app/",
-      },
-      "local": {
-        'path': "assets/dist/",
-        'watermark': '本地测试'
-      },
-      // "remote":  {
-      //   'url': "https://static.fangcloud.com/",
-      //   'watermark': '远程测试'
-      // },
-    }
-    code = code.replace(/\$config\['asset_path'\]\s*=\s*'[^']+'/, "$config['asset_path'] = '" + env_vars[env].path + "'");
-    // code = code.replace(/STATIC_URL\s*=\s*'[\w\-\/\.:]+'/, "STATIC_URL = '" + env_vars[env].url + "'");
-    grunt.file.write(filepath, code);
-
-    // add water mark to indicate test env
-    var layoutTpls = ['../../application/views/layout/main.php', '../../application/views/layout/guest.php', '../../application/views/layout/home.php'];
-    var WATERMARK = '<div style="position:fixed;top:0;left:48%;z-index:99999;width:100px;height:30px;color:#fff;background-color:rgba(4, 79, 239, 0.5);font-size:18px;text-align:center">ENV</div>';
-    layoutTpls.forEach(function(tpl){
-      code = grunt.file.read(tpl);
-      code = code.replace(new RegExp(WATERMARK.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&").replace('ENV', '[^<]+'), 'g') , '');
-      if(env_vars[env].watermark){
-        code = code.replace('</body>', WATERMARK.replace('ENV', env_vars[env].watermark) + '</body>');
-      }
-      grunt.file.write(tpl, code);
-    })
-
-    grunt.log.oklns('Now static environment is: ' + env)
-  })
 
   grunt.registerTask("api-base-url", "Change fangcloud.js base url to prd", function(env) {
     var filepath = "api/fangcloud.js";
