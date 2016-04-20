@@ -9,6 +9,25 @@
   "author": "linicam",
   "license": "ISC",
   "devDependencies": {
-    "moment": "^2.13.0"
+    "bootstrap": "^3.3.6",
+    "bootstrap-webpack": "0.0.5",
+    "css-loader": "^0.23.1",
+    "exports-loader": "^0.6.3",
+    "expose-loader": "^0.7.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "grunt": "^1.0.1",
+    "grunt-cmd-handlebars": "^0.1.2",
+    "grunt-contrib-handlebars": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "handlebars": "^4.0.5",
+    "handlebars-loader": "^1.2.0",
+    "imports-loader": "^0.6.5",
+    "jquery": "^2.2.3",
+    "less-loader": "^2.2.3",
+    "moment": "^2.13.0",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.0"
   }
 }
