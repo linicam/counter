@@ -7,7 +7,8 @@ webpackJsonp([0,1],[
 	var moment = __webpack_require__(3);
 	// var Pikaday = require('pikaday');
 	__webpack_require__(106);
-	var templates = __webpack_require__(110);
+	var basetemplates = __webpack_require__(110);
+	var histemplates = __webpack_require__(134);
 	__webpack_require__(130);
 	__webpack_require__(132);
 
@@ -18,53 +19,49 @@ webpackJsonp([0,1],[
 	var counting = false;
 	var startTime, endTime;
 	var totalTime = moment.duration(0);
-	var now, durationInterval;
+	var now, durationInterval, addedTime = 0;
 
-	// var date_selector = new Pikaday({
-	//     field: $('#date')[0],
-	//     onSelect: function () {
-	//         $('.content').append(templates({time: date_selector.toString()}));
-	//     }
-	// });
-
+	//bind events
 	$('input#start').click(function () {
 	    if (!counting){
+	        $('.counter .action').text('开始计时！')
 	        counting = true;
 	        startTime = moment();
 
 	        durationInterval = setInterval(function () {
-	            if (counting){
-	                $('.counter .lasts').text(countDuraToMoment(startTime).format('HH:mm:ss'));
-	            }
+	            counting && $('.counter .lasts').text(countDuraToMoment(startTime).format('HH:mm:ss'));
 	        }, 1000);
 	    }
 	});
 	$('input#end').click(function () {
 	    var duration;
 	    if (counting) {
+	        $('.counter .action').text('结束计时！')
 	        counting = false;
 	        endTime = moment();
 	        durationInterval && clearInterval(durationInterval);
 
 	        duration = countDuraToMoment(startTime, endTime);
 	        totalTime = countDura(startTime, totalTime);
-	        $('.history-list').prepend(templates({
+	        $('.history-list').prepend(basetemplates({
 	            duration: duration.format('HH:mm:ss'),
 	            startTime: startTime.format('YYYY年MM月DD日 HH时mm分ss秒 dddd'),
 	            endTime: endTime.format('YYYY年MM月DD日 HH时mm分ss秒 dddd')
 	        }));
 
-	        $('.total-time').text(
-	            // (totalTime.years() && (totalTime.years() + '年')) +
-	            // (totalTime.months() && (totalTime.months() + '个月')) +
-	            (totalTime.hours() && (totalTime.hours() + '小时')) +
-	            (totalTime.minutes() && (totalTime.minutes() + '分钟')) + totalTime.seconds() + '秒'
-	        );
+	        $('.total-time').text(formatTotal(totalTime));
 
 	        initDura();
 	    }
 	});
+	$('input#add-button').click(function () {
+	    addedTime += (+$('#add-time').val());
+	    $('.added-time').text('此次增加时长：' + addedTime + '分钟');
+	    $('#add-time').val('');
+	})
 
+	//init display
+	//header
 	now = moment().format('YYYY年MM月DD日 HH时mm分ss秒 dddd');
 	$('.header #now').text(now);
 	setInterval(function () {
@@ -72,11 +69,22 @@ webpackJsonp([0,1],[
 	    $('.header #now').text(now);
 	}, 1000);
 
+	//content
+	$('.total-time').text(formatTotal(totalTime));
+	$('.added-time').text('此次增加时长：0分钟');
+
+	//history
+	$('.history').append(histemplates({
+	    used_time: '',
+	    gained_time: '',
+	    res_time: ''
+	}));
 
 	$('.content').show();
 
+	//helpers
 	function initDura() {
-	    $('span.lasts').text('00:00:00');
+	    $('.counter .lasts').text('00:00:00');
 	}
 
 	function countDura(start, total) {
@@ -85,6 +93,17 @@ webpackJsonp([0,1],[
 
 	function countDuraToMoment(start, end) {
 	    return moment(moment.duration(end && end).add(moment().diff(start), 'ms')._data);
+	}
+
+	function formatTotal(totalTime) {
+	    var year, month, hour, minute, second;
+	    year = totalTime.years() && (totalTime.years() + '年');
+	    month = totalTime.months() && (totalTime.months() + '个月');
+	    hour = totalTime.hours() && (totalTime.hours() + '小时');
+	    minute = totalTime.minutes() && (totalTime.minutes() + '分钟');
+	    second = totalTime.seconds() + '秒';
+	    var timeString = '此次登录总计用时：' + (!year && '') + (!month && '') + (!hour && '') + (!minute && '') + second;
+	    return timeString;
 	}
 
 /***/ },
@@ -15475,7 +15494,7 @@ webpackJsonp([0,1],[
 
 
 	// module
-	exports.push([module.id, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\nhtml{\r\n    color: #404040;\r\n    background: #fff;\r\n}\r\n\r\nbody {\r\n    font-size: 14px;\r\n    line-height: 1.5;\r\n    font-family: \"Lucida Grande\", \"Lucida Sans Unicode\", Helvetica, Arial, Verdana, \"Heiti SC\", \"Microsoft YaHei\", \"\\5FAE\\8F6F\\96C5\\9ED1\", \\5fae\\8f6f\\96c5\\9ed1, \"WenQuanYi Micro Hei\", \\5b8b\\4f53, sans-serif;\r\n}\r\n\r\na {\r\n    color: #079cda;\r\n    text-decoration: none;\r\n    outline: none;\r\n}\r\n\r\nli {\r\n    list-style-type: none;\r\n}\r\n\r\ninput[type='button'] {\r\n    height: 30px;\r\n    padding: 0% 20px;\r\n    border: 1px solid #bacae0;\r\n    color: #435075;\r\n    background-color: #fff;\r\n    vertical-align: baseline;\r\n    text-align: center;\r\n    cursor: pointer;\r\n    border-radius: 2px;\r\n    outline: none;\r\n}\r\ninput[type='button']:hover {\r\n    background-color: #f7f7f7;\r\n    outline: 0;\r\n}\r\n\r\n.hidden {\r\n    display: none;\r\n}\r\n\r\n.content {\r\n    margin: 20px;\r\n}\r\n\r\n/*header*/\r\n.header input[type='button'] {\r\n    margin-right: 10px;\r\n}\r\n\r\n.header #now {\r\n    font-weight: bold;\r\n}\r\n\r\n/*counter*/\r\n.counter {\r\n    margin: 20px 0;\r\n    border: 1px solid #079cda;\r\n    border-radius: 2px;\r\n}\r\n\r\n.counter .lasts {\r\n    color: #d43f3a;\r\n}", ""]);
+	exports.push([module.id, "* {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\nh1, h2, h3 {\r\n    margin-top: 10px;\r\n}\r\n\r\nhtml{\r\n    color: #404040;\r\n    background: #fff;\r\n}\r\n\r\nbody {\r\n    font-size: 14px;\r\n    line-height: 1.5;\r\n    font-family: \"Lucida Grande\", \"Lucida Sans Unicode\", Helvetica, Arial, Verdana, \"Heiti SC\", \"Microsoft YaHei\", \"\\5FAE\\8F6F\\96C5\\9ED1\", \\5fae\\8f6f\\96c5\\9ed1, \"WenQuanYi Micro Hei\", \\5b8b\\4f53, sans-serif;\r\n}\r\n\r\na {\r\n    color: #079cda;\r\n    text-decoration: none;\r\n    outline: none;\r\n}\r\n\r\nli {\r\n    list-style-type: none;\r\n}\r\n\r\ninput[type='button'] {\r\n    height: 30px;\r\n    padding: 0% 20px;\r\n    border: 1px solid #bacae0;\r\n    color: #435075;\r\n    background-color: #fff;\r\n    vertical-align: baseline;\r\n    text-align: center;\r\n    cursor: pointer;\r\n    border-radius: 2px;\r\n    outline: none;\r\n}\r\ninput[type='button']:hover {\r\n    background-color: #f7f7f7;\r\n    outline: 0;\r\n}\r\n\r\n.hidden {\r\n    display: none;\r\n}\r\n\r\n.content {\r\n    margin: 20px;\r\n}\r\n.content > div {\r\n    border-bottom: 1px dashed #079cda;\r\n}\r\n\r\n/*header*/\r\n\r\n.header > div {\r\n    margin-bottom: 10px;\r\n}\r\n\r\n.header input[type='button'] {\r\n    margin-right: 10px;\r\n}\r\n\r\n.header #now {\r\n    font-weight: bold;\r\n}\r\n\r\n/*counter*/\r\n\r\n.counter .lasts {\r\n    color: #d43f3a;\r\n}", ""]);
 
 	// exports
 
@@ -15519,6 +15538,24 @@ webpackJsonp([0,1],[
 
 	// exports
 
+
+/***/ },
+/* 134 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Handlebars = __webpack_require__(111);
+	function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
+	module.exports = (Handlebars["default"] || Handlebars).template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+	    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+	  return "<h4 class=\"history-used-time\">历史用时："
+	    + alias4(((helper = (helper = helpers.used_time || (depth0 != null ? depth0.used_time : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"used_time","hash":{},"data":data}) : helper)))
+	    + "</h4>\r\n<h4 class=\"history-gained-time\">历史获取时间："
+	    + alias4(((helper = (helper = helpers.gained_time || (depth0 != null ? depth0.gained_time : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"gained_time","hash":{},"data":data}) : helper)))
+	    + "</h4>\r\n<h4 class=\"history-result-time\">剩余时间："
+	    + alias4(((helper = (helper = helpers.res_time || (depth0 != null ? depth0.res_time : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"res_time","hash":{},"data":data}) : helper)))
+	    + "</h4>";
+	},"useData":true});
 
 /***/ }
 ]);

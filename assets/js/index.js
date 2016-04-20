@@ -3,7 +3,8 @@ var $ = require('jquery');
 var moment = require('moment');
 // var Pikaday = require('pikaday');
 require('../css/bootstrap.css');
-var templates = require('../templates/base/base.handlebars');
+var basetemplates = require('../templates/base/base.handlebars');
+var histemplates = require('../templates/base/history.handlebars');
 require('../css/main.css');
 require('../css/pikaday/pikaday.css');
 
@@ -14,53 +15,49 @@ moment.locale('zh-cn', {
 var counting = false;
 var startTime, endTime;
 var totalTime = moment.duration(0);
-var now, durationInterval;
+var now, durationInterval, addedTime = 0;
 
-// var date_selector = new Pikaday({
-//     field: $('#date')[0],
-//     onSelect: function () {
-//         $('.content').append(templates({time: date_selector.toString()}));
-//     }
-// });
-
+//bind events
 $('input#start').click(function () {
     if (!counting){
+        $('.counter .action').text('开始计时！')
         counting = true;
         startTime = moment();
 
         durationInterval = setInterval(function () {
-            if (counting){
-                $('.counter .lasts').text(countDuraToMoment(startTime).format('HH:mm:ss'));
-            }
+            counting && $('.counter .lasts').text(countDuraToMoment(startTime).format('HH:mm:ss'));
         }, 1000);
     }
 });
 $('input#end').click(function () {
     var duration;
     if (counting) {
+        $('.counter .action').text('结束计时！')
         counting = false;
         endTime = moment();
         durationInterval && clearInterval(durationInterval);
 
         duration = countDuraToMoment(startTime, endTime);
         totalTime = countDura(startTime, totalTime);
-        $('.history-list').prepend(templates({
+        $('.history-list').prepend(basetemplates({
             duration: duration.format('HH:mm:ss'),
             startTime: startTime.format('YYYY年MM月DD日 HH时mm分ss秒 dddd'),
             endTime: endTime.format('YYYY年MM月DD日 HH时mm分ss秒 dddd')
         }));
 
-        $('.total-time').text(
-            // (totalTime.years() && (totalTime.years() + '年')) +
-            // (totalTime.months() && (totalTime.months() + '个月')) +
-            (totalTime.hours() && (totalTime.hours() + '小时')) +
-            (totalTime.minutes() && (totalTime.minutes() + '分钟')) + totalTime.seconds() + '秒'
-        );
+        $('.total-time').text(formatTotal(totalTime));
 
         initDura();
     }
 });
+$('input#add-button').click(function () {
+    addedTime += (+$('#add-time').val());
+    $('.added-time').text('此次增加时长：' + addedTime + '分钟');
+    $('#add-time').val('');
+})
 
+//init display
+//header
 now = moment().format('YYYY年MM月DD日 HH时mm分ss秒 dddd');
 $('.header #now').text(now);
 setInterval(function () {
@@ -68,11 +65,22 @@ setInterval(function () {
     $('.header #now').text(now);
 }, 1000);
 
+//content
+$('.total-time').text(formatTotal(totalTime));
+$('.added-time').text('此次增加时长：0分钟');
+
+//history
+$('.history').append(histemplates({
+    used_time: '',
+    gained_time: '',
+    res_time: ''
+}));
 
 $('.content').show();
 
+//helpers
 function initDura() {
-    $('span.lasts').text('00:00:00');
+    $('.counter .lasts').text('00:00:00');
 }
 
 function countDura(start, total) {
@@ -81,4 +89,15 @@ function countDura(start, total) {
 
 function countDuraToMoment(start, end) {
     return moment(moment.duration(end && end).add(moment().diff(start), 'ms')._data);
+}
+
+function formatTotal(totalTime) {
+    var year, month, hour, minute, second;
+    year = totalTime.years() && (totalTime.years() + '年');
+    month = totalTime.months() && (totalTime.months() + '个月');
+    hour = totalTime.hours() && (totalTime.hours() + '小时');
+    minute = totalTime.minutes() && (totalTime.minutes() + '分钟');
+    second = totalTime.seconds() + '秒';
+    var timeString = '此次登录总计用时：' + (!year && '') + (!month && '') + (!hour && '') + (!minute && '') + second;
+    return timeString;
 }

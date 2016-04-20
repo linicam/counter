@@ -5,15 +5,25 @@
 <body>
 <div class="content" style="display: none">
     <div class="header">
-        <input type="button" id="start" value="开始">
-        <input type="button" id="end" value="停止">
-        <span id="now"></span>
+        <div>
+            <input type="button" id="start" value="开始">
+            <input type="button" id="end" value="停止">
+            <span id="now"></span>
+        </div>
+        <div>
+            <input type="text" id="add-time" placeholder="请输入增加时长（分钟）">
+            <input type="button" id="add-button" value="确认">
+        </div>
     </div>
     <div class="counter">
-        <h2 class="lasts">00:00:00</h2>
+        <h3 class="lasts">00:00:00</h3>
+        <h5 class="action"></h5>
         <h4 class="total-time"></h4>
+        <h4 class="added-time"></h4>
     </div>
     <div class="history">
+    </div>
+    <div class="search">
         <ul class="history-list">
 
         </ul>

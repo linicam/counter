@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+h1, h2, h3 {
+    margin-top: 10px;
+}
+
 html{
     color: #404040;
     background: #fff;
@@ -48,8 +52,16 @@ input[type='button']:hover {
 .content {
     margin: 20px;
 }
+.content > div {
+    border-bottom: 1px dashed #079cda;
+}
 
 /*header*/
+
+.header > div {
+    margin-bottom: 10px;
+}
+
 .header input[type='button'] {
     margin-right: 10px;
 }
@@ -59,11 +71,6 @@ input[type='button']:hover {
 }
 
 /*counter*/
-.counter {
-    margin: 20px 0;
-    border: 1px solid #079cda;
-    border-radius: 2px;
-}
 
 .counter .lasts {
     color: #d43f3a;
