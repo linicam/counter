@@ -1,33 +1,43 @@
 {
-  "name": "linicam_counter",
+  "name": "counter-linicam",
   "version": "1.0.0",
-  "description": "",
+  "description": "counter",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/linicam/counter.git"
+  },
+  "keywords": [
+    "counter"
+  ],
   "author": "linicam",
   "license": "ISC",
-  "devDependencies": {
-    "bootstrap": "^3.3.6",
-    "bootstrap-webpack": "0.0.5",
-    "css-loader": "^0.23.1",
-    "exports-loader": "^0.6.3",
-    "expose-loader": "^0.7.1",
-    "extract-text-webpack-plugin": "^1.0.1",
-    "file-loader": "^0.8.5",
-    "grunt": "^1.0.1",
-    "grunt-cmd-handlebars": "^0.1.2",
-    "grunt-contrib-handlebars": "^1.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "handlebars": "^4.0.5",
-    "handlebars-loader": "^1.2.0",
-    "imports-loader": "^0.6.5",
-    "jquery": "^2.2.3",
-    "less-loader": "^2.2.3",
+  "bugs": {
+    "url": "https://github.com/linicam/counter/issues"
+  },
+  "homepage": "https://github.com/linicam/counter#readme",
+  "dependencies": {
+    "caniuse-db": "^1.0.30000460",
+    "normalize-range": "^0.1.2",
+    "num2fraction": "^1.2.2",
     "moment": "^2.13.0",
-    "style-loader": "^0.13.1",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.13.0"
+    "browserslist": "^1.3.1",
+    "handlebars": "^4.0.5",
+    "webpack": "^1.13.0",
+    "pikaday": "^1.4.0"
+  },
+  "devDependencies": {
+    "jquery": "^2.2.3",
+    "underscore": "^1.8.3",
+    "file-loader": "^0.8.5",
+    "handlebars-loader": "^1.2.0",
+    "css-loader": "^0.23.1",
+    "style-loader": "0.13.1",
+    "expose-loader": "^0.7.1",
+    "url-loader": "0.5.7",
+    "extract-text-webpack-plugin": "1.0.1"
   }
 }

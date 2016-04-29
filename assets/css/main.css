@@ -3,13 +3,15 @@
     padding: 0;
 }
 
-h1, h2, h3 {
-    margin-top: 10px;
+h1, h2, h3, h4, h5 {
+    margin: 10px 0;
 }
 
 html{
-    color: #404040;
     background: #fff;
+    margin: 20px;
+    font: 13px/20px normal Helvetica, Arial, sans-serif;
+    color: #4F5155;
 }
 
 body {
@@ -19,13 +21,31 @@ body {
 }
 
 a {
-    color: #079cda;
     text-decoration: none;
     outline: none;
+    color: #003399;
+    background-color: transparent;
+    font-weight: normal;
+}
+
+ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 li {
     list-style-type: none;
+}
+
+code {
+    font-family: Consolas, Monaco, Courier New, Courier, monospace;
+    font-size: 12px;
+    background-color: #f9f9f9;
+    border: 1px solid #D0D0D0;
+    color: #002166;
+    display: block;
+    margin: 14px 0 14px 0;
+    padding: 12px 10px 12px 10px;
 }
 
 input[type='button'] {
@@ -45,15 +65,32 @@ input[type='button']:hover {
     outline: 0;
 }
 
+#container {
+    margin: 10px;
+    border: 1px solid #D0D0D0;
+    box-shadow: 0 0 8px #D0D0D0;
+}
+
+.global-blocker {
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0);
+}
+
 .hidden {
     display: none;
 }
 
 .content {
-    margin: 20px;
+    margin: 10px 20px 20px;
 }
 .content > div {
     border-bottom: 1px dashed #079cda;
+    padding: 10px 0;
 }
 
 /*header*/
@@ -74,4 +111,61 @@ input[type='button']:hover {
 
 .counter .lasts {
     color: #d43f3a;
+}
+
+/*historylist*/
+.history-list .item > li {
+    display: inline-block;
+    text-align: center;
+}
+.history-list .item .item-last {
+    width: 20%;
+}
+.history-list .item .item-start, .history-list .item .item-end {
+    width: 38%;
+}
+
+/*topnotify*/
+
+.top-notify {
+    position: fixed;
+    top: 120px;
+    width: 100%;
+    z-index: 9999;
+    text-align: center;
+    height: 0;
+    opacity: 0;
+}
+.top-notify .notify-msg {
+    display: inline-block;
+    background: #000;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 4px;
+    padding: 15px 55px 15px 25px;
+    color: #fff;
+    font-size: 16px;
+}
+.top-notify i {
+    position: relative;
+    left: -35px;
+    top: -2px;
+    cursor: pointer;
+}
+.icon {
+     background-image: url("../images/all-icons.png");
+     height: 25px;
+     width: 25px;
+}
+.icon, .icon-type-s, .icon-type-m, .icon-type-l {
+    background-repeat: no-repeat;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+.icon-notify-close {
+    background-position: -75px -250px;
+}
+.icon-notify-close:hover {
+    opacity: 0.6;
+    filter: alpha(opacity=60); /* IE8 and lower */
 }

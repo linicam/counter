@@ -1,5 +1,7 @@
 var webpack = require('webpack');
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var chunkCssFilename = 'css/[name].css';
 // var jqueryPlugin = new webpack.ProvidePlugin({
 //     $: "jquery",
 //     jQuery: "jquery",
@@ -8,7 +10,10 @@ var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 
 module.exports = {
     //插件项
-    plugins: [commonsPlugin],
+    plugins: [
+        commonsPlugin,
+        new ExtractTextPlugin("[name].css")
+    ],
     //页面入口文件配置
     entry: {
         index : './js/index.js'
@@ -21,9 +26,18 @@ module.exports = {
     module: {
         //加载器配置
         loaders: [
-            { test: /\.css$/, loader: "style!css" },
-            { test: /\.png$/, loader: "url-loader?mimetype=image/png" },
-            { test: /\.handlebars$/, loader: "handlebars-loader" }
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract('style', 'css')
+            },
+            {
+                test: /\.png$/,
+                loader: "url-loader?mimetype=image/png"
+            },
+            {
+                test: /\.handlebars$/,
+                loader: "handlebars-loader"
+            }
         ]
     },
     //其它解决方案配置
@@ -31,9 +45,10 @@ module.exports = {
         root: './', //绝对路径
         extensions: ['', '.js', '.json', '.scss'],
         alias: {
-            jquery : 'lib/jquery-1.12.3.min.js',
-            pikaday : 'lib/pikaday.js',
-            underscore : 'lib/underscore-min.js'
+            // jquery : 'lib/jquery-1.12.3.js',
+            // pikaday : 'lib/pikaday.js',
+            // underscore : 'lib/underscore-min.js',
+            egeui : 'lib/egeui.js'
         }
     }
 };
